@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: TestProjectGulyan_bot
+      POSTGRES_USER: DiplineRU
+      POSTGRES_PASSWORD: ok0w6umnog
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - botnet
+
+  bot:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/TestProjectGulyan_bot
+      DB_USER: DiplineRU
+      DB_PASSWORD: ok0w6umnog
+      TELEGRAM_BOT_TOKEN: 8053565336:AAHwnWZCmcsYzV-OCts752nCTLJ1ZNkqivU
+    networks:
+      - botnet
+
+volumes:
+  pgdata:
+
+networks:
+  botnet:
