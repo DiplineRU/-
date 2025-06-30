@@ -1,13 +1,11 @@
 package com.example.TestProjectGulyan;
 
 import com.example.TestProjectGulyan.model.UserResponse;
-import org.apache.poi.xwpf.usermodel.*;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,13 +25,6 @@ public class ReportService {
     private void sendDocument(Long chatId, File file) {
         telegramBot.sendDocument(chatId, file); // делегируем отправку боту
     }
-
- /*   @Bean
-    public TelegramBotsApi telegramBotsApi(TelegramBot telegramBot) throws TelegramApiException {
-        TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
-        api.registerBot(telegramBot);
-        return api;
-    }*/
 
     public void generateReport(Long chatId) {
         List<UserResponse> responses = userResponseRepository.findAll();

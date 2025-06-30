@@ -8,18 +8,19 @@ import java.util.Map;
 
 @Service
 public class FormStateService {
-    private final TelegramBot telegramBot;
     private final UserResponseRepository userResponseRepository;
+    private final BotMessageSender botMessageSender;
+
 
     private final Map<Long, State> userStates = new HashMap<>();
     private final Map<Long, UserResponse> userResponses = new HashMap<>();
 
-    public FormStateService(TelegramBot telegramBot, UserResponseRepository userResponseRepository) {
-        this.telegramBot = telegramBot;
+    public FormStateService(UserResponseRepository userResponseRepository, BotMessageSender botMessageSender) {
         this.userResponseRepository = userResponseRepository;
+        this.botMessageSender = botMessageSender;
     }
     private void sendMessage(Long chatId, String text) {
-        telegramBot.sendMessage(chatId, text); // Делегируем отправку боту
+        botMessageSender.sendMessage(chatId, text); // Делегируем отправку боту
     }
 
     private void saveResponse(Long chatId, UserResponse response) {
