@@ -14,17 +14,12 @@ import java.util.List;
 @Service
 public class ReportService {
     private final UserResponseRepository userResponseRepository;
-    private final TelegramBot telegramBot;
 
     @Autowired
-    public ReportService(UserResponseRepository userResponseRepository, TelegramBot telegramBot) {
+    public ReportService(UserResponseRepository userResponseRepository) {
         this.userResponseRepository = userResponseRepository;
-        this.telegramBot = telegramBot;
     }
 
-    private void sendDocument(Long chatId, File file) {
-        telegramBot.sendDocument(chatId, file); // делегируем отправку боту
-    }
 
     public void generateReport(Long chatId) {
         List<UserResponse> responses = userResponseRepository.findAll();
@@ -49,7 +44,9 @@ public class ReportService {
             File file = File.createTempFile("report", ".docx");
             try (FileOutputStream out = new FileOutputStream(file)) {
                 document.write(out);
+/*
                 telegramBot.sendDocument(chatId, file);
+*/
                 file.deleteOnExit();
             }
         } catch (Exception e) {
